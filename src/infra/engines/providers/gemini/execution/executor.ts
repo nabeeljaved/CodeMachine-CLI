@@ -9,6 +9,7 @@ export interface RunAgentOptions {
   logger?: (chunk: string) => void;
   stderrLogger?: (chunk: string) => void;
   timeout?: number; // Timeout in milliseconds (default: 1800000ms = 30 minutes)
+  model?: string; // Model to use (e.g., 'gemini-2.0-flash', 'gemini-2.5-pro')
 }
 
 export function shouldSkipGemini(): boolean {
@@ -19,6 +20,7 @@ export async function runGeminiPrompt(options: {
   agentId: string;
   prompt: string;
   cwd: string;
+  model?: string;
 }): Promise<void> {
   if (shouldSkipGemini()) {
     console.log(`[dry-run] ${options.agentId}: ${options.prompt.slice(0, 80)}...`);
@@ -28,6 +30,7 @@ export async function runGeminiPrompt(options: {
   await runGemini({
     prompt: options.prompt,
     workingDir: options.cwd,
+    model: options.model,
     onData: (chunk) => {
       try {
         process.stdout.write(chunk);
@@ -77,6 +80,7 @@ export async function runAgent(
   const result = await runGemini({
     prompt,
     workingDir: cwd,
+    model: options.model,
     abortSignal: options.abortSignal,
     timeout: options.timeout,
     onData: (chunk) => {

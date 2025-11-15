@@ -16,6 +16,10 @@ export function buildGeminiExecCommand(options: GeminiCommandOptions): GeminiCom
 
   const args: string[] = [];
 
+  // Add non-interactive mode flag
+  // Prompt will be passed via stdin instead of the -p flag to support multi-line prompts
+  args.push('-p', '');
+
   // Add model selection if specified
   if (model) {
     args.push('-m', model);
