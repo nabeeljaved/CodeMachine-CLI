@@ -8,6 +8,7 @@ import { isEngineModule } from './base.js';
 // Import all engines at compile time
 import codexEngine from '../providers/codex/index.js';
 import claudeEngine from '../providers/claude/index.js';
+import geminiEngine from '../providers/gemini/index.js';
 import cursorEngine from '../providers/cursor/index.js';
 import ccrEngine from '../providers/ccr/index.js';
 import opencodeEngine from '../providers/opencode/index.js';
@@ -31,8 +32,9 @@ class EngineRegistry {
     // Register all known engines
     // To add a new engine: import it above and register it here
     const engineModules = [
-      codexEngine,
-      claudeEngine,
+      codexEngine,      // Order: 1 (default)
+      claudeEngine,     // Order: 2
+      geminiEngine,     // Order: 3
       cursorEngine,
       ccrEngine,
       opencodeEngine,
